@@ -27,7 +27,9 @@ const randomInteger = (min, max) => {
 };
 
 
-const colors = ["ff7c00", "ef88b5", "fdbf43", "77c465", "ab63c2", "3cc0f0", "fe4e55", "77c566", "00b6a3", "ff7e00", "ff4f5b"];
+const colors = ["ff7c00", "ef88b5", "fdbf43", "77c465",
+    "ab63c2", "3cc0f0", "fe4e55", "77c566", "00b6a3",
+    "ff7e00", "ff4f5b"];
 
 const randomColor = function () {
     const index = randomInteger(0, colors.length);
