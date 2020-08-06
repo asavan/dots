@@ -14,9 +14,11 @@ const getLocalExternalIP = () => [].concat(...Object.values(os.networkInterfaces
     .filter(details => details.family === 'IPv4' && !details.internal)
     .pop().address
 
+const STATIC_PORT = 8080;
+
 module.exports = (env, argv) => {
     const devMode = !argv || (argv.mode !== 'production');
-    let addr = getLocalExternalIP() || '0.0.0.0';
+    let addr = getLocalExternalIP() || 'localhost';
     return {
 
         entry: {main: "./src/index.js"},
@@ -71,12 +73,13 @@ module.exports = (env, argv) => {
         ],
         devServer: {
             // contentBase: path.resolve(__dirname, "src"),
-            historyApiFallback: true,
+            disableHostCheck: true,
             compress: true,
-            port: 8080,
+            port: STATIC_PORT,
             hot: true,
             open: true,
-            host: addr,
+            host: '0.0.0.0',
+            public: addr + ':' + STATIC_PORT,
             // clientLogLevel: 'debug',
             // watchContentBase: true,
         }
