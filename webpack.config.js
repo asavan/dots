@@ -8,6 +8,10 @@ const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const HashOutput = require('webpack-plugin-hash-output');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
 
+const webpack = require('webpack');
+
+const {InjectManifest} = require('workbox-webpack-plugin');
+
 // process.traceDeprecation = true;
 
 const getLocalExternalIP = () => [].concat(...Object.values(os.networkInterfaces()))
@@ -48,9 +52,9 @@ module.exports = (env, argv) => {
             minimizer: [new TerserJSPlugin({
                 terserOptions: {
                     mangle: true,
-                    compress: {
-                        drop_console: true
-                    }
+                    // compress: {
+                    //     drop_console: true
+                    // }
                 }
             }), new OptimizeCSSAssetsPlugin({})],
         },
@@ -69,6 +73,13 @@ module.exports = (env, argv) => {
             }),
             new MiniCssExtractPlugin({
                 filename: devMode ? '[name].css' : '[name].[contenthash].css'
+            }),
+            ...(devMode ? [] : [new InjectManifest({
+                swDest: '../sw.js',
+                swSrc: './src/sw.js'
+            })]),
+            new webpack.DefinePlugin({
+                __USE_SERVICE_WORKERS__: !devMode
             })
         ],
         devServer: {
