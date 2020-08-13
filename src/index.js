@@ -33,38 +33,54 @@ function makeSvgIcon(color) {
     return svgStr.replace('#color', color);
 }
 
-const colors = ["ff7c00", "ef88b5", "fdbf43", "77c465",
-    "ab63c2", "3cc0f0", "fe4e55", "77c566", "00b6a3",
-    "ff7e00", "ff4f5b"];
+const colors = ["#ff7e00", "#ef88b5",
+    "#fdbf43", "#77c566",
+    "#ab63c2", "#3cc0f0",
+    "#fe4e55", "#00b6a3"
+];
 
 const fieldSize = 36;
 
-const randomColor = () => '#' + randomElem(colors);
+const getColor = (c) => c;
+const randomColor = () => getColor(randomElem(colors));
+
 
 const box = document.getElementsByClassName("grid")[0];
 initField(fieldSize, "dot", box);
 
 const c = box.children;
+
 for (let i = 0; i < c.length; i++) {
     c[i].style.backgroundColor = randomColor();
 }
 
 
 function changeIcon(color) {
-    const link = document.getElementById('favicon');
+    let link = document.getElementById('favicon');
     if (!link) {
-        console.error("Can't find favicon");
+        link = document.createElement('link');
+        link.id = 'favicon';
+        link.rel = 'shortcut icon';
+        link.sizes = 'any';
+        link.type = 'image/svg+xml';
+        document.head.appendChild(link);
     }
 
     const svgText = makeSvgIcon(color);
     link.href = svgToDataURL(svgText);
 }
 
+let prevColor = null;
 box.onclick = function (e) {
     e.preventDefault();
     if (e.target.classList.contains('dot')) {
         const color = e.target.style.backgroundColor;
-        changeIcon(color);
+        if (prevColor) {
+            changeIcon(prevColor);
+        } else {
+            changeIcon(randomColor());
+        }
+        prevColor = color;
         e.target.classList.add("disabled");
     }
 };
