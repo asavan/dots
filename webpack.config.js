@@ -54,9 +54,7 @@ module.exports = (env, argv) => {
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
                 minify: false,
-                filename: devMode ? "./index.html" : "../index.html",
-                inject: 'head'
-                // filename: 'index.html'
+                filename: devMode ? "./index.html" : "../index.html"
             }),
             new MiniCssExtractPlugin({
                 filename: devMode ? '[name].css' : '[name].[contenthash].css'
