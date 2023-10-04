@@ -1,0 +1,16 @@
+{
+    "name": "Site with dots",
+	"short_name": "dots",
+    "icons": [
+        {
+            "src": "./images/dot.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "theme_color": "#ffffff",
+    "background_color": "#ffffff",
+    "start_url": "./",
+    "display": "standalone"
+}

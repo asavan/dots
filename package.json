@@ -2,25 +2,38 @@
   "name": "dots",
   "version": "1.0.0",
   "private": true,
+  "sideEffects": false,
+  "main": "index.js",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "description": "Site with dots",
   "scripts": {
-    "dev": "webpack --mode development --watch",
-    "start": "webpack serve --mode development",
-    "build": "webpack --mode production"
+    "start": "webpack serve --config devtools/webpack.config.js --mode development",
+    "build": "webpack --config devtools/production.webpack.config.js --mode production",
+    "style": "npx eslint --no-eslintrc --config devtools/.eslintrc.json .",
+    "style:fix": "npx eslint --no-eslintrc --config devtools/.eslintrc.json --fix .",
+    "style2": "npx stylelint --config devtools/.stylelintrc.json \"src/**/*.css\"",
+    "style2:fix": "npx stylelint --config devtools/.stylelintrc.json \"src/**/*.css\" --fix",
+    "updates": "npx ncu",
+    "updates:fix": "npx ncu -u && npm install"
   },
   "devDependencies": {
-    "clean-webpack-plugin": "^4.0.0",
-    "copy-webpack-plugin": "^10.2.3",
-    "css-loader": "^6.5.1",
-    "css-minimizer-webpack-plugin": "^3.4.1",
-    "esm": "^3.2.25",
-    "html-webpack-plugin": "^5.5.0",
-    "mini-css-extract-plugin": "^2.5.3",
-    "npm-check-updates": "^12.2.1",
-    "terser-webpack-plugin": "^5.3.0",
-    "webpack": "^5.67.0",
-    "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.3",
-    "workbox-webpack-plugin": "^6.4.2"
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.8.1",
+    "css-minimizer-webpack-plugin": "^5.0.1",
+    "eslint": "^8.50.0",
+    "html-inline-css-webpack-plugin": "^1.11.2",
+    "html-webpack-plugin": "^5.5.3",
+    "mini-css-extract-plugin": "^2.7.6",
+    "npm-check-updates": "^16.14.4",
+    "stylelint": "^15.10.3",
+    "stylelint-config-standard": "^34.0.0",
+    "terser-webpack-plugin": "^5.3.9",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^4.15.1",
+    "workbox-webpack-plugin": "^7.0.0"
   }
 }

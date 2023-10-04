@@ -1,16 +1,15 @@
 "use strict";
-import "./css/style.css";
 
 function initField(fieldSize, className, elem) {
     for (let i = 0; i < fieldSize; i++) {
-        const cell = document.createElement('div');
+        const cell = document.createElement("div");
         cell.className = className;
         elem.appendChild(cell);
     }
 }
 
 const randomInteger = (min, max) => {
-    let rand = min + Math.random() * (max - min);
+    const rand = min + Math.random() * (max - min);
     return Math.floor(rand);
 };
 
@@ -19,18 +18,21 @@ const randomElem = (arr) => arr[randomIndex(arr.length)];
 
 const svgToDataURL = svgStr => {
     const encoded = encodeURIComponent(svgStr)
-        .replace(/'/g, '%27')
-        .replace(/"/g, '%22');
+        .replace(/'/g, "%27")
+        .replace(/"/g, "%22");
 
-    const header = 'data:image/svg+xml;utf8,';
+    const header = "data:image/svg+xml;utf8,";
     const dataUrl = header + encoded;
     return dataUrl;
-}
+};
 
 
 function makeSvgIcon(color) {
-    const svgStr = "<svg viewBox='0 0 120 120' version='1.1' xmlns='http://www.w3.org/2000/svg'><circle fill='#color' cx='60' cy='60' r='50'/></svg>";
-    return svgStr.replace('#color', color);
+    const svgStr =
+    `<svg viewBox='0 0 120 120' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+        <circle fill='#color' cx='60' cy='60' r='50'/>
+    </svg>`;
+    return svgStr.replace("#color", color);
 }
 
 const colors = ["#ff7e00", "#ef88b5",
@@ -41,9 +43,7 @@ const colors = ["#ff7e00", "#ef88b5",
 
 const fieldSize = 36;
 
-const getColor = (c) => c;
-const randomColor = () => getColor(randomElem(colors));
-
+const randomColor = () => randomElem(colors);
 
 const box = document.getElementsByClassName("grid")[0];
 initField(fieldSize, "dot", box);
@@ -56,13 +56,13 @@ for (let i = 0; i < c.length; i++) {
 
 
 function changeIcon(color) {
-    let link = document.getElementById('favicon');
+    let link = document.getElementById("favicon");
     if (!link) {
-        link = document.createElement('link');
-        link.id = 'favicon';
-        link.rel = 'shortcut icon';
-        link.sizes = 'any';
-        link.type = 'image/svg+xml';
+        link = document.createElement("link");
+        link.id = "favicon";
+        link.rel = "shortcut icon";
+        link.sizes = "any";
+        link.type = "image/svg+xml";
         document.head.appendChild(link);
     }
 
@@ -73,7 +73,7 @@ function changeIcon(color) {
 let prevColor = null;
 box.onclick = function (e) {
     e.preventDefault();
-    if (e.target.classList.contains('dot')) {
+    if (e.target.classList.contains("dot")) {
         const color = e.target.style.backgroundColor;
         if (prevColor) {
             changeIcon(prevColor);
@@ -87,8 +87,9 @@ box.onclick = function (e) {
 
 changeIcon(randomColor());
 
+// eslint-disable-next-line no-undef
 if (__USE_SERVICE_WORKERS__) {
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js', {scope: './'});
+    if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("./sw.js", {scope: "./"});
     }
 }

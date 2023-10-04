@@ -1,50 +1,36 @@
-const CACHE = 'offline-fallback';
-self.addEventListener('install', function (evt) {
-    evt.waitUntil(precache().then(function () {
-        return self.skipWaiting();
-    }));
+const CACHE = "offline-fallback";
+self.addEventListener("install", (evt) => {
+    evt.waitUntil(precache().then(() => self.skipWaiting()));
 });
 
-self.addEventListener('activate', function (evt) {
+self.addEventListener("activate", (evt) => {
     evt.waitUntil(self.clients.claim());
 });
 
-self.addEventListener('fetch', function (evt) {
-    evt.respondWith(networkOrCache(evt.request).catch(function () {
-        return useFallback();
-    }));
+self.addEventListener("fetch", (evt) => {
+    evt.respondWith(networkOrCache(evt.request).catch(() => useFallback()));
 });
 
 
 function networkOrCache(request) {
-    return fetch(request).then(function (response) {
-        return response.ok ? response : fromCache(request);
-    })
-        .catch(function () {
-            return fromCache(request);
-        });
+    return fetch(request).then((response) => response.ok ? response : fromCache(request))
+        .catch(() => fromCache(request));
 }
 
 function useFallback() {
-    return caches.open(CACHE).then(function(cache) {
-        return cache.match('./');
-    });
+    return caches.open(CACHE).then((cache) => cache.match("./"));
 }
 
 function fromCache(request) {
-    return caches.open(CACHE).then(function (cache) {
-        return cache.match(request).then(function (matching) {
-            return matching || Promise.reject('request-not-in-cache');
-        });
-    });
+    return caches.open(CACHE).
+        then((cache) => cache.match(request).
+            then((matching) => matching || Promise.reject("request-not-in-cache")));
 }
 
 function precache() {
-    const filesToCache  = self.__WB_MANIFEST.map((e) => e.url);
-    return caches.open(CACHE).then(function (cache) {
-        return cache.addAll([
-            "./",
-            ...filesToCache
-        ]);
-    });
+    const filesToCache = self.__WB_MANIFEST.map((e) => e.url);
+    return caches.open(CACHE).then((cache) => cache.addAll([
+        "./",
+        ...filesToCache
+    ]));
 }
