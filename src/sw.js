@@ -1,11 +1,28 @@
-const CACHE = "offline-fallback";
+/* eslint-env serviceworker */
+
+const version = "1.0.0";
+const CACHE = "cache-only-" + version;
+
+const deleteCache = async (key) => {
+    await caches.delete(key);
+};
+
+const deleteOldCaches = async () => {
+    const keyList = await caches.keys();
+    const cachesToDelete = keyList.filter((key) => key !== CACHE);
+    await Promise.all(cachesToDelete.map(deleteCache));
+};
+
+const onActivate = async () => {
+    await self.clients.claim();
+    await deleteOldCaches();
+};
+
 self.addEventListener("install", (evt) => {
     evt.waitUntil(precache().then(() => self.skipWaiting()));
 });
 
-self.addEventListener("activate", (evt) => {
-    evt.waitUntil(self.clients.claim());
-});
+self.onactivate = (evt) => evt.waitUntil(onActivate());
 
 self.addEventListener("fetch", (evt) => {
     evt.respondWith(networkOrCache(evt.request).catch(() => useFallback()));
