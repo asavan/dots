@@ -114,7 +114,7 @@ body {
     margin-top: 20px;
 }
 
-@media (width <= 450px) {
+@media (max-width: 450px) {
     .grid {
         grid-template-columns: repeat(4, 1fr);
     }

@@ -46,6 +46,7 @@ const prodConfig = () => {
             }),
             new HtmlWebpackPlugin({
                 template: "./src/index.html",
+                scriptLoading: "module",
                 minify: false
             }),
             new HTMLInlineCSSWebpackPlugin.default(),
