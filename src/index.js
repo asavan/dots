@@ -29,7 +29,7 @@ const svgToDataURL = svgStr => {
 
 function makeSvgIcon(color) {
     const svgStr =
-    `<svg viewBox='0 0 120 120' version='1.1' xmlns='http://www.w3.org/2000/svg'>
+        `<svg viewBox='0 0 120 120' version='1.1' xmlns='http://www.w3.org/2000/svg'>
         <circle fill='#color' cx='60' cy='60' r='50'/>
     </svg>`;
     return svgStr.replace("#color", color);
@@ -87,7 +87,7 @@ box.onclick = function (e) {
 
 changeIcon(randomColor());
 
-// eslint-disable-next-line no-undef
+
 if (__USE_SERVICE_WORKERS__) {
     if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./sw.js", {scope: "./"});
